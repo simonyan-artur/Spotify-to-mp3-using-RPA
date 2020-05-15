@@ -1,0 +1,347 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="in_TransactionItem" Type="InArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="io_Artist" Type="InOutArgument(x:String)" />
+    <x:Property Name="io_Title" Type="InOutArgument(x:String)" />
+    <x:Property Name="io_SongsDownloadFullPath" Type="InArgument(x:String)" />
+    <x:Property Name="io_YouTube2Mp3Browser" Type="InOutArgument(ui:Browser)" />
+    <x:Property Name="io_LogDT" Type="InOutArgument(sd:DataTable)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>2130,3160</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="23">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="22">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.Services.Common</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by different workflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction will be skipped. &#xA;If another kind of exception (ApplicationException) occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="2140,3095" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="SongURL" />
+      <Variable x:TypeArguments="ui:Browser" Name="GoogleBrowser" />
+      <Variable x:TypeArguments="x:Boolean" Name="DownloadStatus">
+        <Variable.Default>
+          <Literal x:TypeArguments="x:Boolean" />
+        </Variable.Default>
+      </Variable>
+      <Variable x:TypeArguments="x:Boolean" Name="ConversionStatus">
+        <Variable.Default>
+          <Literal x:TypeArguments="x:Boolean" />
+        </Variable.Default>
+      </Variable>
+      <Variable x:TypeArguments="x:Boolean" Name="SongEnteredStatus">
+        <Variable.Default>
+          <Literal x:TypeArguments="x:Boolean" />
+        </Variable.Default>
+      </Variable>
+      <Variable x:TypeArguments="sd:DataRow" Name="LogRow" />
+      <Variable x:TypeArguments="x:Boolean" Name="FolderExists" />
+      <Variable x:TypeArguments="x:String" Name="ProcessError" />
+      <Variable x:TypeArguments="x:String" Name="ProcessWorkflow" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Assign sap:VirtualizedContainerService.HintSize="2098,60" sap2010:WorkflowViewState.IdRef="Assign_5">
+      <Assign.To>
+        <OutArgument x:TypeArguments="sd:DataRow">[LogRow]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="sd:DataRow">[io_LogDT.NewRow]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign sap:VirtualizedContainerService.HintSize="2098,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Object">[LogRow("Artist")]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Object">[io_Artist]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign sap:VirtualizedContainerService.HintSize="2098,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Object">[LogRow("Song")]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Object">[io_Title]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Google_Search workflow" sap:VirtualizedContainerService.HintSize="2098,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Google\Google_Search.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_GoogleSearchURL">[in_Config("GoogleSearchURL").ToString]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Artist">[io_Artist]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Tiltle">[io_Title]</InArgument>
+        <OutArgument x:TypeArguments="ui:Browser" x:Key="out_GoogleBrowser">[GoogleBrowser]</OutArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Google_ExtractSongURL workflow" sap:VirtualizedContainerService.HintSize="2098,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Google/Google_ExtractSongURL.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Artist">
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="io_Artist" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Title">
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="io_Title" />
+        </InArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_SongURL">
+          <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="SongURL" />
+        </OutArgument>
+        <InArgument x:TypeArguments="ui:Browser" x:Key="in_GoogleBrowser">
+          <mva:VisualBasicValue x:TypeArguments="ui:Browser" ExpressionText="GoogleBrowser" />
+        </InArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_Error">
+          <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="ProcessError" />
+        </OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_Workflow">
+          <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="ProcessWorkflow" />
+        </OutArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Google_Close workflow" sap:VirtualizedContainerService.HintSize="2098,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="Google\Google_Close.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="ui:Browser" x:Key="in_GoogleBrowser">[GoogleBrowser]</InArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <If Condition="[Not SongURL is Nothing]" sap:VirtualizedContainerService.HintSize="2098,1656" sap2010:WorkflowViewState.IdRef="If_1">
+      <If.Then>
+        <Sequence sap:VirtualizedContainerService.HintSize="1823,1508" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke YouTube2Mp3_EnterSongURL workflow" sap:VirtualizedContainerService.HintSize="1781,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_9" UnSafe="False" WorkflowFileName="YouTube2Mp3\YouTube2Mp3_EnterSongURL.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="x:String" x:Key="in_SongURL">
+                <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="SongURL" />
+              </InArgument>
+              <InArgument x:TypeArguments="ui:Browser" x:Key="in_YouTube2Mp3Browser">
+                <mva:VisualBasicValue x:TypeArguments="ui:Browser" ExpressionText="io_YouTube2Mp3Browser" />
+              </InArgument>
+              <OutArgument x:TypeArguments="x:Boolean" x:Key="out_SongEnteredStatus">
+                <mva:VisualBasicReference x:TypeArguments="x:Boolean" ExpressionText="SongEnteredStatus" />
+              </OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_Workflow">
+                <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="ProcessWorkflow" />
+              </OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_Error">
+                <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="ProcessError" />
+              </OutArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+          <If Condition="[SongEnteredStatus]" sap:VirtualizedContainerService.HintSize="1781,1289" sap2010:WorkflowViewState.IdRef="If_4">
+            <If.Then>
+              <Sequence sap:VirtualizedContainerService.HintSize="1360,1141" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke YouTube2Mp3_Convert workflow" sap:VirtualizedContainerService.HintSize="1318,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_7" UnSafe="False" WorkflowFileName="YouTube2Mp3\YouTube2Mp3_Convert.xaml">
+                  <ui:InvokeWorkflowFile.Arguments>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_SongURL">
+                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="SongURL" />
+                    </InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_SongsDownloadFullPath">
+                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="io_SongsDownloadFullPath" />
+                    </InArgument>
+                    <InArgument x:TypeArguments="ui:Browser" x:Key="in_YouTube2Mp3Browser">
+                      <mva:VisualBasicValue x:TypeArguments="ui:Browser" ExpressionText="io_YouTube2Mp3Browser" />
+                    </InArgument>
+                    <OutArgument x:TypeArguments="x:Boolean" x:Key="out_ConversionStatus">
+                      <mva:VisualBasicReference x:TypeArguments="x:Boolean" ExpressionText="ConversionStatus" />
+                    </OutArgument>
+                    <OutArgument x:TypeArguments="x:String" x:Key="out_Workflow">
+                      <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="ProcessWorkflow" />
+                    </OutArgument>
+                    <OutArgument x:TypeArguments="x:String" x:Key="out_Error">
+                      <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="ProcessError" />
+                    </OutArgument>
+                  </ui:InvokeWorkflowFile.Arguments>
+                </ui:InvokeWorkflowFile>
+                <If Condition="[ConversionStatus]" sap:VirtualizedContainerService.HintSize="1318,922" sap2010:WorkflowViewState.IdRef="If_3">
+                  <If.Then>
+                    <Sequence sap:VirtualizedContainerService.HintSize="897,774" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke YouTube2Mp3_Download workflow" sap:VirtualizedContainerService.HintSize="855,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_10" UnSafe="False" WorkflowFileName="YouTube2Mp3\YouTube2Mp3_Download.xaml">
+                        <ui:InvokeWorkflowFile.Arguments>
+                          <InArgument x:TypeArguments="ui:Browser" x:Key="in_YouTube2Mp3Browser">
+                            <mva:VisualBasicValue x:TypeArguments="ui:Browser" ExpressionText="io_YouTube2Mp3Browser" />
+                          </InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_SongsDownloadFullPath">
+                            <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="io_SongsDownloadFullPath + &quot;\&quot; + io_Artist + &quot; - &quot; + io_Title + &quot;.mp3&quot;" />
+                          </InArgument>
+                          <OutArgument x:TypeArguments="x:Boolean" x:Key="out_DownloadStatus">
+                            <mva:VisualBasicReference x:TypeArguments="x:Boolean" ExpressionText="DownloadStatus" />
+                          </OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="out_Workflow">
+                            <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="ProcessWorkflow" />
+                          </OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="out_Error">
+                            <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="ProcessError" />
+                          </OutArgument>
+                        </ui:InvokeWorkflowFile.Arguments>
+                      </ui:InvokeWorkflowFile>
+                      <If Condition="[DownloadStatus]" sap:VirtualizedContainerService.HintSize="855,555" sap2010:WorkflowViewState.IdRef="If_2">
+                        <If.Then>
+                          <ui:BrowserScope SearchScope="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" Browser="[io_YouTube2Mp3Browser]" BrowserType="Chrome" DisplayName="Attach Browser" sap:VirtualizedContainerService.HintSize="434,407" sap2010:WorkflowViewState.IdRef="BrowserScope_1">
+                            <ui:BrowserScope.Body>
+                              <ActivityAction x:TypeArguments="x:Object">
+                                <ActivityAction.Argument>
+                                  <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                                </ActivityAction.Argument>
+                                <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="376,299" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <ui:Click DelayBefore="{x:Null}" DelayMS="{x:Null}" ClickType="CLICK_SINGLE" sap:VirtualizedContainerService.HintSize="334,106" sap2010:WorkflowViewState.IdRef="Click_1" KeyModifiers="None" MouseButton="BTN_LEFT" SendWindowMessages="False" SimulateClick="False">
+                                    <ui:Click.CursorPosition>
+                                      <ui:CursorPosition Position="Center">
+                                        <ui:CursorPosition.OffsetX>
+                                          <InArgument x:TypeArguments="x:Int32" />
+                                        </ui:CursorPosition.OffsetX>
+                                        <ui:CursorPosition.OffsetY>
+                                          <InArgument x:TypeArguments="x:Int32" />
+                                        </ui:CursorPosition.OffsetY>
+                                      </ui:CursorPosition>
+                                    </ui:Click.CursorPosition>
+                                    <ui:Click.Target>
+                                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" TimeoutMS="{x:Null}" InformativeScreenshot="f1c063f8a741ae20edc31457b89cff9a" Selector="&lt;html app='chrome.exe' title='YouTube to Mp3 Converter' /&gt;&#xA;&lt;webctrl aaname='Home' tag='A' /&gt;&#xA;&lt;nav up='2' /&gt;&#xA;&lt;webctrl tag='IMG' /&gt;&#xA;" WaitForReady="INTERACTIVE" />
+                                    </ui:Click.Target>
+                                  </ui:Click>
+                                  <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="334,61" sap2010:WorkflowViewState.IdRef="WriteLine_2" Text="Song was downloaded successfully." />
+                                </Sequence>
+                              </ActivityAction>
+                            </ui:BrowserScope.Body>
+                          </ui:BrowserScope>
+                        </If.Then>
+                        <If.Else>
+                          <Sequence sap:VirtualizedContainerService.HintSize="376,280" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="334,61" sap2010:WorkflowViewState.IdRef="WriteLine_3" Text="An Error occured restarting YouTube2Mp3" />
+                            <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke YouTube2Mp3_Open workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_11" UnSafe="False" WorkflowFileName="YouTube2Mp3\YouTube2Mp3_Open.xaml">
+                              <ui:InvokeWorkflowFile.Arguments>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_YouTube2Mp3URL">[in_Config("YouTube2Mp3URL").ToString]</InArgument>
+                                <OutArgument x:TypeArguments="ui:Browser" x:Key="out_YouTube2Mp3Browser" />
+                              </ui:InvokeWorkflowFile.Arguments>
+                            </ui:InvokeWorkflowFile>
+                          </Sequence>
+                        </If.Else>
+                      </If>
+                    </Sequence>
+                  </If.Then>
+                  <If.Else>
+                    <Sequence sap:VirtualizedContainerService.HintSize="376,280" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="334,61" sap2010:WorkflowViewState.IdRef="WriteLine_4" Text="An Error occured restarting YouTube2Mp3" />
+                      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke YouTube2Mp3_Open workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_12" UnSafe="False" WorkflowFileName="YouTube2Mp3\YouTube2Mp3_Open.xaml">
+                        <ui:InvokeWorkflowFile.Arguments>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_YouTube2Mp3URL">[in_Config("YouTube2Mp3URL").ToString]</InArgument>
+                          <OutArgument x:TypeArguments="ui:Browser" x:Key="out_YouTubeToMp3Browser">[io_YouTube2Mp3Browser]</OutArgument>
+                        </ui:InvokeWorkflowFile.Arguments>
+                      </ui:InvokeWorkflowFile>
+                    </Sequence>
+                  </If.Else>
+                </If>
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <Sequence sap:VirtualizedContainerService.HintSize="376,280" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="334,61" sap2010:WorkflowViewState.IdRef="WriteLine_5" Text="An Error occured restarting YouTube2Mp3" />
+                <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke YouTube2Mp3_Open workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_13" UnSafe="False" WorkflowFileName="YouTube2Mp3\YouTube2Mp3_Open.xaml">
+                  <ui:InvokeWorkflowFile.Arguments>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_YouTube2Mp3URL">[in_Config("YouTube2Mp3URL").ToString]</InArgument>
+                    <OutArgument x:TypeArguments="ui:Browser" x:Key="out_YouTubeToMp3Browser">[io_YouTube2Mp3Browser]</OutArgument>
+                  </ui:InvokeWorkflowFile.Arguments>
+                </ui:InvokeWorkflowFile>
+              </Sequence>
+            </If.Else>
+          </If>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="230,61" sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="[&quot;No Valid Video URL Found.&quot; + Environment.NewLine + &quot;Processing the next item...&quot;]" />
+      </If.Else>
+    </If>
+    <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{io_Artist, io_Title, DownloadStatus.ToString, ProcessError, ProcessWorkflow}]" DataTable="[io_LogDT]" DisplayName="Add Data Row" sap:VirtualizedContainerService.HintSize="2098,22" sap2010:WorkflowViewState.IdRef="AddDataRow_1" />
+    <ui:PathExists DisplayName="Path Exists" Exists="[FolderExists]" sap:VirtualizedContainerService.HintSize="2098,89" sap2010:WorkflowViewState.IdRef="PathExists_1" Path="[Path.Combine(Environment.CurrentDirectory, in_Config(&quot;SongsDownloadPath&quot;).ToString) + &quot;\Temp&quot;]" PathType="Folder" />
+    <If Condition="[FolderExists]" sap:VirtualizedContainerService.HintSize="2098,208" sap2010:WorkflowViewState.IdRef="If_6">
+      <If.Then>
+        <ui:Delete ContinueOnError="{x:Null}" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Delete_1" Path="[Path.Combine(Environment.CurrentDirectory, in_Config(&quot;SongsDownloadPath&quot;).ToString) + &quot;\Temp&quot;]" />
+      </If.Then>
+    </If>
+    <ui:WriteRange AddHeaders="True" DataTable="[io_LogDT]" DisplayName="Write Range" sap:VirtualizedContainerService.HintSize="2098,115" sap2010:WorkflowViewState.IdRef="WriteRange_1" SheetName="Sheet1" StartingCell="A1" WorkbookPath="[Path.Combine(Environment.CurrentDirectory, in_Config(&quot;SongsDownloadPath&quot;).ToString) + &quot;\Temp\Log&quot; + System.DateTime.Now.ToString(&quot;dd_MM_yyyy_hh_mm_ss&quot;) + &quot;.xlsx&quot;]" />
+  </Sequence>
+</Activity>
