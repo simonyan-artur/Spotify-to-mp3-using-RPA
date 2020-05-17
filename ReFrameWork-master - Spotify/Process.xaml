@@ -70,21 +70,9 @@
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="SongURL" />
       <Variable x:TypeArguments="ui:Browser" Name="GoogleBrowser" />
-      <Variable x:TypeArguments="x:Boolean" Name="DownloadStatus">
-        <Variable.Default>
-          <Literal x:TypeArguments="x:Boolean" />
-        </Variable.Default>
-      </Variable>
-      <Variable x:TypeArguments="x:Boolean" Name="ConversionStatus">
-        <Variable.Default>
-          <Literal x:TypeArguments="x:Boolean" />
-        </Variable.Default>
-      </Variable>
-      <Variable x:TypeArguments="x:Boolean" Name="SongEnteredStatus">
-        <Variable.Default>
-          <Literal x:TypeArguments="x:Boolean" />
-        </Variable.Default>
-      </Variable>
+      <Variable x:TypeArguments="x:Boolean" Default="False" Name="DownloadStatus" />
+      <Variable x:TypeArguments="x:Boolean" Default="False" Name="ConversionStatus" />
+      <Variable x:TypeArguments="x:Boolean" Default="False" Name="SongEnteredStatus" />
       <Variable x:TypeArguments="sd:DataRow" Name="LogRow" />
       <Variable x:TypeArguments="x:Boolean" Name="FolderExists" />
       <Variable x:TypeArguments="x:String" Name="ProcessError" />
@@ -130,24 +118,12 @@
     </ui:InvokeWorkflowFile>
     <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Google_ExtractSongURL workflow" sap:VirtualizedContainerService.HintSize="2098,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Google/Google_ExtractSongURL.xaml">
       <ui:InvokeWorkflowFile.Arguments>
-        <InArgument x:TypeArguments="x:String" x:Key="in_Artist">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="io_Artist" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_Title">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="io_Title" />
-        </InArgument>
-        <OutArgument x:TypeArguments="x:String" x:Key="out_SongURL">
-          <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="SongURL" />
-        </OutArgument>
-        <InArgument x:TypeArguments="ui:Browser" x:Key="in_GoogleBrowser">
-          <mva:VisualBasicValue x:TypeArguments="ui:Browser" ExpressionText="GoogleBrowser" />
-        </InArgument>
-        <OutArgument x:TypeArguments="x:String" x:Key="out_Error">
-          <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="ProcessError" />
-        </OutArgument>
-        <OutArgument x:TypeArguments="x:String" x:Key="out_Workflow">
-          <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="ProcessWorkflow" />
-        </OutArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Artist">[io_Artist]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Title">[io_Title]</InArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_SongURL">[SongURL]</OutArgument>
+        <InArgument x:TypeArguments="ui:Browser" x:Key="in_GoogleBrowser">[GoogleBrowser]</InArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_Error">[ProcessError]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_Workflow">[ProcessWorkflow]</OutArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
     <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Google_Close workflow" sap:VirtualizedContainerService.HintSize="2098,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="Google\Google_Close.xaml">
@@ -165,21 +141,11 @@
           </sap:WorkflowViewStateService.ViewState>
           <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke YouTube2Mp3_EnterSongURL workflow" sap:VirtualizedContainerService.HintSize="1781,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_9" UnSafe="False" WorkflowFileName="YouTube2Mp3\YouTube2Mp3_EnterSongURL.xaml">
             <ui:InvokeWorkflowFile.Arguments>
-              <InArgument x:TypeArguments="x:String" x:Key="in_SongURL">
-                <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="SongURL" />
-              </InArgument>
-              <InArgument x:TypeArguments="ui:Browser" x:Key="in_YouTube2Mp3Browser">
-                <mva:VisualBasicValue x:TypeArguments="ui:Browser" ExpressionText="io_YouTube2Mp3Browser" />
-              </InArgument>
-              <OutArgument x:TypeArguments="x:Boolean" x:Key="out_SongEnteredStatus">
-                <mva:VisualBasicReference x:TypeArguments="x:Boolean" ExpressionText="SongEnteredStatus" />
-              </OutArgument>
-              <OutArgument x:TypeArguments="x:String" x:Key="out_Workflow">
-                <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="ProcessWorkflow" />
-              </OutArgument>
-              <OutArgument x:TypeArguments="x:String" x:Key="out_Error">
-                <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="ProcessError" />
-              </OutArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_SongURL">[SongURL]</InArgument>
+              <InArgument x:TypeArguments="ui:Browser" x:Key="in_YouTube2Mp3Browser">[io_YouTube2Mp3Browser]</InArgument>
+              <OutArgument x:TypeArguments="x:Boolean" x:Key="out_SongEnteredStatus">[SongEnteredStatus]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_Workflow">[ProcessWorkflow]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_Error">[ProcessError]</OutArgument>
             </ui:InvokeWorkflowFile.Arguments>
           </ui:InvokeWorkflowFile>
           <If Condition="[SongEnteredStatus]" sap:VirtualizedContainerService.HintSize="1781,1289" sap2010:WorkflowViewState.IdRef="If_4">
@@ -192,24 +158,12 @@
                 </sap:WorkflowViewStateService.ViewState>
                 <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke YouTube2Mp3_Convert workflow" sap:VirtualizedContainerService.HintSize="1318,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_7" UnSafe="False" WorkflowFileName="YouTube2Mp3\YouTube2Mp3_Convert.xaml">
                   <ui:InvokeWorkflowFile.Arguments>
-                    <InArgument x:TypeArguments="x:String" x:Key="in_SongURL">
-                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="SongURL" />
-                    </InArgument>
-                    <InArgument x:TypeArguments="x:String" x:Key="in_SongsDownloadFullPath">
-                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="io_SongsDownloadFullPath" />
-                    </InArgument>
-                    <InArgument x:TypeArguments="ui:Browser" x:Key="in_YouTube2Mp3Browser">
-                      <mva:VisualBasicValue x:TypeArguments="ui:Browser" ExpressionText="io_YouTube2Mp3Browser" />
-                    </InArgument>
-                    <OutArgument x:TypeArguments="x:Boolean" x:Key="out_ConversionStatus">
-                      <mva:VisualBasicReference x:TypeArguments="x:Boolean" ExpressionText="ConversionStatus" />
-                    </OutArgument>
-                    <OutArgument x:TypeArguments="x:String" x:Key="out_Workflow">
-                      <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="ProcessWorkflow" />
-                    </OutArgument>
-                    <OutArgument x:TypeArguments="x:String" x:Key="out_Error">
-                      <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="ProcessError" />
-                    </OutArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_SongURL">[SongURL]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_SongsDownloadFullPath">[io_SongsDownloadFullPath]</InArgument>
+                    <InArgument x:TypeArguments="ui:Browser" x:Key="in_YouTube2Mp3Browser">[io_YouTube2Mp3Browser]</InArgument>
+                    <OutArgument x:TypeArguments="x:Boolean" x:Key="out_ConversionStatus">[ConversionStatus]</OutArgument>
+                    <OutArgument x:TypeArguments="x:String" x:Key="out_Workflow">[ProcessWorkflow]</OutArgument>
+                    <OutArgument x:TypeArguments="x:String" x:Key="out_Error">[ProcessError]</OutArgument>
                   </ui:InvokeWorkflowFile.Arguments>
                 </ui:InvokeWorkflowFile>
                 <If Condition="[ConversionStatus]" sap:VirtualizedContainerService.HintSize="1318,922" sap2010:WorkflowViewState.IdRef="If_3">
@@ -222,21 +176,11 @@
                       </sap:WorkflowViewStateService.ViewState>
                       <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke YouTube2Mp3_Download workflow" sap:VirtualizedContainerService.HintSize="855,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_10" UnSafe="False" WorkflowFileName="YouTube2Mp3\YouTube2Mp3_Download.xaml">
                         <ui:InvokeWorkflowFile.Arguments>
-                          <InArgument x:TypeArguments="ui:Browser" x:Key="in_YouTube2Mp3Browser">
-                            <mva:VisualBasicValue x:TypeArguments="ui:Browser" ExpressionText="io_YouTube2Mp3Browser" />
-                          </InArgument>
-                          <InArgument x:TypeArguments="x:String" x:Key="in_SongsDownloadFullPath">
-                            <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="io_SongsDownloadFullPath + &quot;\&quot; + io_Artist + &quot; - &quot; + io_Title + &quot;.mp3&quot;" />
-                          </InArgument>
-                          <OutArgument x:TypeArguments="x:Boolean" x:Key="out_DownloadStatus">
-                            <mva:VisualBasicReference x:TypeArguments="x:Boolean" ExpressionText="DownloadStatus" />
-                          </OutArgument>
-                          <OutArgument x:TypeArguments="x:String" x:Key="out_Workflow">
-                            <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="ProcessWorkflow" />
-                          </OutArgument>
-                          <OutArgument x:TypeArguments="x:String" x:Key="out_Error">
-                            <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="ProcessError" />
-                          </OutArgument>
+                          <InArgument x:TypeArguments="ui:Browser" x:Key="in_YouTube2Mp3Browser">[io_YouTube2Mp3Browser]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_SongsDownloadFullPath">[io_SongsDownloadFullPath + "\" + io_Artist + " - " + io_Title + ".mp3"]</InArgument>
+                          <OutArgument x:TypeArguments="x:Boolean" x:Key="out_DownloadStatus">[DownloadStatus]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="out_Workflow">[ProcessWorkflow]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="out_Error">[ProcessError]</OutArgument>
                         </ui:InvokeWorkflowFile.Arguments>
                       </ui:InvokeWorkflowFile>
                       <If Condition="[DownloadStatus]" sap:VirtualizedContainerService.HintSize="855,555" sap2010:WorkflowViewState.IdRef="If_2">
@@ -284,8 +228,12 @@
                             <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="334,61" sap2010:WorkflowViewState.IdRef="WriteLine_3" Text="An Error occured restarting YouTube2Mp3" />
                             <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke YouTube2Mp3_Open workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_11" UnSafe="False" WorkflowFileName="YouTube2Mp3\YouTube2Mp3_Open.xaml">
                               <ui:InvokeWorkflowFile.Arguments>
-                                <InArgument x:TypeArguments="x:String" x:Key="in_YouTube2Mp3URL">[in_Config("YouTube2Mp3URL").ToString]</InArgument>
-                                <OutArgument x:TypeArguments="ui:Browser" x:Key="out_YouTube2Mp3Browser" />
+                                <InArgument x:TypeArguments="x:String" x:Key="in_YouTube2Mp3URL">
+                                  <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;YouTube2Mp3URL&quot;).ToString" />
+                                </InArgument>
+                                <OutArgument x:TypeArguments="ui:Browser" x:Key="out_YouTube2Mp3Browser">
+                                  <mva:VisualBasicReference x:TypeArguments="ui:Browser" ExpressionText="io_YouTube2Mp3Browser" />
+                                </OutArgument>
                               </ui:InvokeWorkflowFile.Arguments>
                             </ui:InvokeWorkflowFile>
                           </Sequence>
@@ -303,8 +251,12 @@
                       <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="334,61" sap2010:WorkflowViewState.IdRef="WriteLine_4" Text="An Error occured restarting YouTube2Mp3" />
                       <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke YouTube2Mp3_Open workflow" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_12" UnSafe="False" WorkflowFileName="YouTube2Mp3\YouTube2Mp3_Open.xaml">
                         <ui:InvokeWorkflowFile.Arguments>
-                          <InArgument x:TypeArguments="x:String" x:Key="in_YouTube2Mp3URL">[in_Config("YouTube2Mp3URL").ToString]</InArgument>
-                          <OutArgument x:TypeArguments="ui:Browser" x:Key="out_YouTubeToMp3Browser">[io_YouTube2Mp3Browser]</OutArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_YouTube2Mp3URL">
+                            <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;YouTube2Mp3URL&quot;).ToString" />
+                          </InArgument>
+                          <OutArgument x:TypeArguments="ui:Browser" x:Key="out_YouTubeToMp3Browser">
+                            <mva:VisualBasicReference x:TypeArguments="ui:Browser" ExpressionText="io_YouTube2Mp3Browser" />
+                          </OutArgument>
                         </ui:InvokeWorkflowFile.Arguments>
                       </ui:InvokeWorkflowFile>
                     </Sequence>

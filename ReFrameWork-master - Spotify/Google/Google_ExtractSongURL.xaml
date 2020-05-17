@@ -10,10 +10,10 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1452,3138</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1067,3185</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Chrome_ExtractSongURL_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
-    <scg:List x:TypeArguments="x:String" Capacity="22">
+    <scg:List x:TypeArguments="x:String" Capacity="44">
       <x:String>System.Activities</x:String>
       <x:String>System.Activities.Statements</x:String>
       <x:String>System.Activities.Expressions</x:String>
@@ -36,10 +36,11 @@
       <x:String>UiPath.Core.Activities</x:String>
       <x:String>System.Windows.Markup</x:String>
       <x:String>System.Xml.Serialization</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <scg:List x:TypeArguments="AssemblyReference" Capacity="19">
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="38">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -61,7 +62,7 @@
       <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Google_ExtractSongURL" sap:VirtualizedContainerService.HintSize="1077,3073" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Google_ExtractSongURL" sap:VirtualizedContainerService.HintSize="1077,3120" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Default="[Nothing]" Name="BestHeader" />
       <Variable x:TypeArguments="x:Double" Default="0" Name="MaxSimilar" />
@@ -91,20 +92,20 @@
         <InArgument x:TypeArguments="x:String">No Error</InArgument>
       </Assign.Value>
     </Assign>
-    <Sequence DisplayName="Header Scraping" sap:VirtualizedContainerService.HintSize="1035,2781" sap2010:WorkflowViewState.IdRef="Sequence_10">
+    <Sequence DisplayName="Header Scraping" sap:VirtualizedContainerService.HintSize="1035,2828" sap2010:WorkflowViewState.IdRef="Sequence_10">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           <x:Boolean x:Key="IsPinned">False</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
-      <ui:BrowserScope SearchScope="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" Browser="[in_GoogleBrowser]" BrowserType="Chrome" DisplayName="Attach Browser Videos page" sap:VirtualizedContainerService.HintSize="993,2689" sap2010:WorkflowViewState.IdRef="BrowserScope_4" InformativeScreenshot="0354e9b8a20cc6366b22eee0c3bb1aae">
+      <ui:BrowserScope SearchScope="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" Browser="[in_GoogleBrowser]" BrowserType="Chrome" DisplayName="Attach Browser Videos page" sap:VirtualizedContainerService.HintSize="993,2736" sap2010:WorkflowViewState.IdRef="BrowserScope_4" InformativeScreenshot="0354e9b8a20cc6366b22eee0c3bb1aae">
         <ui:BrowserScope.Body>
           <ActivityAction x:TypeArguments="x:Object">
             <ActivityAction.Argument>
               <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
             </ActivityAction.Argument>
-            <Sequence DisplayName="Extract and Process Song Link Headers" sap:VirtualizedContainerService.HintSize="959,2543" sap2010:WorkflowViewState.IdRef="Sequence_9">
+            <Sequence DisplayName="Extract and Process Song Link Headers" sap:VirtualizedContainerService.HintSize="959,2590" sap2010:WorkflowViewState.IdRef="Sequence_9">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -115,26 +116,27 @@
                   <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" TimeoutMS="{x:Null}" InformativeScreenshot="b8c9b4ccf0ed06346fb7d514fa1af6e8" Selector="&lt;webctrl id='rso' tag='DIV' /&gt;" WaitForReady="COMPLETE" />
                 </ui:ExtractData.Target>
               </ui:ExtractData>
-              <Sequence DisplayName="Processing Search Headers" sap:VirtualizedContainerService.HintSize="917,2305" sap2010:WorkflowViewState.IdRef="Sequence_11">
+              <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="917,61" sap2010:WorkflowViewState.IdRef="WriteLine_17" Text="[ExtractedSongsHeaders.Rows.Count.ToString]" />
+              <Sequence DisplayName="Processing Search Headers" sap:VirtualizedContainerService.HintSize="917,2251" sap2010:WorkflowViewState.IdRef="Sequence_11">
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                     <x:Boolean x:Key="IsPinned">False</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[ExtractedSongsHeaders]" DisplayName="For Each Row in ExtractedSongsHeaders" sap:VirtualizedContainerService.HintSize="875,839" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+                <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[ExtractedSongsHeaders]" DisplayName="For Each Row in ExtractedSongsHeaders" sap:VirtualizedContainerService.HintSize="875,1086" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
                   <ui:ForEachRow.Body>
                     <ActivityAction x:TypeArguments="sd:DataRow">
                       <ActivityAction.Argument>
                         <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
                       </ActivityAction.Argument>
-                      <Sequence DisplayName="Processing Row" sap:VirtualizedContainerService.HintSize="526,692" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                      <Sequence DisplayName="Processing Row" sap:VirtualizedContainerService.HintSize="713,939" sap2010:WorkflowViewState.IdRef="Sequence_3">
                         <sap:WorkflowViewStateService.ViewState>
                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
                             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
-                        <Assign DisplayName="Assign Similarity" sap:VirtualizedContainerService.HintSize="484,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+                        <Assign DisplayName="Assign Similarity" sap:VirtualizedContainerService.HintSize="671,60" sap2010:WorkflowViewState.IdRef="Assign_2">
                           <Assign.To>
                             <OutArgument x:TypeArguments="x:Double">[Similarity]</OutArgument>
                           </Assign.To>
@@ -142,16 +144,16 @@
                             <InArgument x:TypeArguments="x:Double">[Convert.ToDouble((((((in_Artist + " - " + in_Title).ToString).ToCharArray).Intersect((row("Column1").ToString).ToCharArray)).Count * 200)/((in_Artist + " - " + in_Title).Length + (row("Column1").ToString).Length)) - ExtractedSongsHeaders.Rows.IndexOf(row)]</InArgument>
                           </Assign.Value>
                         </Assign>
-                        <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="484,61" sap2010:WorkflowViewState.IdRef="WriteLine_6" Text="[&quot;Header = &quot; + row(&quot;Column1&quot;).ToString + Environment.NewLine +  &quot;Original query = &quot; +  in_Artist + &quot; - &quot; + in_Title + Environment.NewLine + &quot;Similarity % = &quot;+ Similarity.ToString]" />
-                        <If Condition="[Similarity &gt; MaxSimilar And ((row(&quot;Column1&quot;).ToString.Contains(in_Artist.Split(&quot;,&quot;c)(0))) Or (row(&quot;Column1&quot;).ToString.Contains(in_Title)))]" DisplayName="If Similarity is max and Header contains Artist name or Title" sap:VirtualizedContainerService.HintSize="484,399" sap2010:WorkflowViewState.IdRef="If_1">
+                        <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="671,61" sap2010:WorkflowViewState.IdRef="WriteLine_6" Text="[&quot;Header = &quot; + row(&quot;Column1&quot;).ToString + Environment.NewLine +  &quot;Original query = &quot; +  in_Artist + &quot; - &quot; + in_Title + Environment.NewLine + &quot;Similarity % = &quot;+ Similarity.ToString]" />
+                        <If Condition="[Similarity &gt; MaxSimilar And (System.Text.RegularExpressions.Regex.IsMatch( row(&quot;Column1&quot;).ToString, in_Title.Trim ,System.Text.RegularExpressions.RegexOptions.IgnoreCase) Or System.Text.RegularExpressions.Regex.IsMatch( row(&quot;Column1&quot;).ToString, in_Artist.Trim ,System.Text.RegularExpressions.RegexOptions.IgnoreCase))]" DisplayName="If Similarity is max and Header contains Artist name or Title" sap:VirtualizedContainerService.HintSize="671,646" sap2010:WorkflowViewState.IdRef="If_1">
                           <If.Then>
-                            <Sequence DisplayName="Assign MaxSimilar and BestHeader" sap:VirtualizedContainerService.HintSize="304,252" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                            <Sequence DisplayName="Assign MaxSimilar and BestHeader" sap:VirtualizedContainerService.HintSize="526,499" sap2010:WorkflowViewState.IdRef="Sequence_6">
                               <sap:WorkflowViewStateService.ViewState>
                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                 </scg:Dictionary>
                               </sap:WorkflowViewStateService.ViewState>
-                              <Assign DisplayName="Assign MaxSimilar" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_3">
+                              <Assign DisplayName="Assign MaxSimilar" sap:VirtualizedContainerService.HintSize="484,60" sap2010:WorkflowViewState.IdRef="Assign_3">
                                 <Assign.To>
                                   <OutArgument x:TypeArguments="x:Double">[MaxSimilar]</OutArgument>
                                 </Assign.To>
@@ -159,7 +161,19 @@
                                   <InArgument x:TypeArguments="x:Double">[Similarity]</InArgument>
                                 </Assign.Value>
                               </Assign>
-                              <Assign DisplayName="Assign BestHeader" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_4">
+                              <If Condition="[ExtractedSongsHeaders.Rows.IndexOf(row) = 0]" sap:VirtualizedContainerService.HintSize="484,207" sap2010:WorkflowViewState.IdRef="If_4">
+                                <If.Then>
+                                  <Assign sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_13">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:Double">[MaxSimilar]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:Double">[MaxSimilar + 20]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                </If.Then>
+                              </If>
+                              <Assign DisplayName="Assign BestHeader" sap:VirtualizedContainerService.HintSize="484,60" sap2010:WorkflowViewState.IdRef="Assign_4">
                                 <Assign.To>
                                   <OutArgument x:TypeArguments="x:String">[BestHeader]</OutArgument>
                                 </Assign.To>
@@ -181,9 +195,9 @@
                   </sap:WorkflowViewStateService.ViewState>
                 </ui:ForEachRow>
                 <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="875,61" sap2010:WorkflowViewState.IdRef="WriteLine_3" Text="[&quot;Best Header = &quot;+ BestHeader]" />
-                <If Condition="[Not BestHeader is Nothing]" DisplayName="If BestHeader is Nothing" sap:VirtualizedContainerService.HintSize="875,1233" sap2010:WorkflowViewState.IdRef="If_3">
+                <If Condition="[Not BestHeader is Nothing]" DisplayName="If BestHeader is Nothing" sap:VirtualizedContainerService.HintSize="875,932" sap2010:WorkflowViewState.IdRef="If_3">
                   <If.Then>
-                    <Sequence DisplayName="Prepare Browser Title" sap:VirtualizedContainerService.HintSize="526,1086" sap2010:WorkflowViewState.IdRef="Sequence_12">
+                    <Sequence DisplayName="Prepare Browser Title" sap:VirtualizedContainerService.HintSize="526,785" sap2010:WorkflowViewState.IdRef="Sequence_12">
                       <sap:WorkflowViewStateService.ViewState>
                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -209,9 +223,9 @@
                           </Assign>
                         </If.Then>
                       </If>
-                      <TryCatch DisplayName="Try Catch RClick events" sap:VirtualizedContainerService.HintSize="484,484" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+                      <TryCatch DisplayName="Try Catch RClick events" sap:VirtualizedContainerService.HintSize="484,183" sap2010:WorkflowViewState.IdRef="TryCatch_1">
                         <TryCatch.Try>
-                          <Sequence sap:VirtualizedContainerService.HintSize="460,763" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                          <Sequence sap:VirtualizedContainerService.HintSize="460,683" sap2010:WorkflowViewState.IdRef="Sequence_17">
                             <sap:WorkflowViewStateService.ViewState>
                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -273,10 +287,10 @@
                           </Sequence>
                         </TryCatch.Try>
                         <TryCatch.Catches>
-                          <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="400,322" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                          <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="400,21" sap2010:WorkflowViewState.IdRef="Catch`1_1">
                             <sap:WorkflowViewStateService.ViewState>
                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
                                 <x:Boolean x:Key="IsPinned">False</x:Boolean>
                               </scg:Dictionary>
                             </sap:WorkflowViewStateService.ViewState>

@@ -9,7 +9,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1452,2407</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>729,2006</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>YouTube2Mp3_Download_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="22">
@@ -60,7 +60,7 @@
       <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="YouTube2Mp3_Download" sap:VirtualizedContainerService.HintSize="739,2342" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="YouTube2Mp3_Download" sap:VirtualizedContainerService.HintSize="739,1941" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="EnteredFileName" />
       <Variable x:TypeArguments="x:Boolean" Name="ConfirmSaveAs" />
@@ -96,20 +96,20 @@
         <InArgument x:TypeArguments="x:Boolean">True</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:BrowserScope SearchScope="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" Browser="[in_YouTube2Mp3Browser]" BrowserType="IE" DisplayName="Attach YouTube2Mp3" sap:VirtualizedContainerService.HintSize="697,1849" sap2010:WorkflowViewState.IdRef="BrowserScope_1">
+    <ui:BrowserScope SearchScope="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" Browser="[in_YouTube2Mp3Browser]" BrowserType="Chrome" DisplayName="Attach YouTube2Mp3" sap:VirtualizedContainerService.HintSize="697,1448" sap2010:WorkflowViewState.IdRef="BrowserScope_1">
       <ui:BrowserScope.Body>
         <ActivityAction x:TypeArguments="x:Object">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="663,1741" sap2010:WorkflowViewState.IdRef="Sequence_3">
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="663,1340" sap2010:WorkflowViewState.IdRef="Sequence_3">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
             <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="621,61" sap2010:WorkflowViewState.IdRef="WriteLine_3" Text="Clicking Download button ..." />
-            <TryCatch DisplayName="Try Catch Download Clicking Error" sap:VirtualizedContainerService.HintSize="621,584" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+            <TryCatch DisplayName="Try Catch Download Clicking Error" sap:VirtualizedContainerService.HintSize="621,183" sap2010:WorkflowViewState.IdRef="TryCatch_1">
               <TryCatch.Try>
                 <ui:RetryScope DisplayName="Retry Clicking Download" sap:VirtualizedContainerService.HintSize="418,525" sap2010:WorkflowViewState.IdRef="RetryScope_1" NumberOfRetries="3" RetryInterval="00:00:05">
                   <ui:RetryScope.ActivityBody>
@@ -157,10 +157,10 @@
                 </ui:RetryScope>
               </TryCatch.Try>
               <TryCatch.Catches>
-                <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="400,422" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="400,21" sap2010:WorkflowViewState.IdRef="Catch`1_1">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
                       <x:Boolean x:Key="IsPinned">False</x:Boolean>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
