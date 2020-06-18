@@ -8,5 +8,5 @@ Process asks user about the desired number of songs need to be retrieved and pro
 To find the most relevant link for user's Artist - Title pair, program calculates similarity of user's query and search results and choses the one with highest similarity score.
 To convert video link to mp3 program uses online service YouTube2Mp3 (https://ytmp3.cc).
 To track the workflow of the program and troubleshoot problems, a log file is prepared in Excel format, which contains information about errors and workflows that cause them.
-Thanks.
+Thank you.
 
